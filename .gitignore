@@ -1,0 +1,7 @@
+.DS_Store
+packer_cache/
+.vagrant/
+*.box
+*.iso
+*.tar.gz
+output-*

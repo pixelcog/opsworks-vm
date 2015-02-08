@@ -1,0 +1,11 @@
+
+# require vagrant version 1.7.0 to allow for the named provisioners syntax
+Vagrant.require_version(">= 1.7.0")
+box_root = File.dirname(__FILE__)
+
+Vagrant.configure("2") do |config|
+  config.vm.synced_folder box_root, '/tmp/vagrant-opsworks'
+  config.vm.provision 'opsworks', type: 'shell' do |shell|
+    shell.inline = '/bin/bash /tmp/vagrant-opsworks/opsworks "$@"'
+  end
+end

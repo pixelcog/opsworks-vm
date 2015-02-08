@@ -1,0 +1,51 @@
+#!/bin/bash
+
+# exit if no arguments provided
+if [[ $# -eq 0 ]]; then
+  echo "Nothing to do..."
+  exit
+fi
+
+# install opsworks agent if not already available
+if [[ ! -f /opt/aws/opsworks/current/VERSION ]]; then
+
+  # decide which agent version to install
+  if [[ -z $OPSWORKS_AGENT_VERSION ]]; then
+    OPSWORKS_AGENT_VERSION='33200020141203204624'
+  fi
+
+  # install dependencies
+  echo "Installing OpsWorks agent dependencies"
+  apt-get -yq update
+  apt-get -yq install curl libxml2-dev libxslt-dev libyaml-dev
+
+  # create expected directories and populate them with expected config files
+  mkdir -p /{etc,opt,var/{log,lib}}/aws/opsworks/ /var/lib/cloud/
+  cp $(dirname "${BASH_SOURCE[0]}")/{client.yml,pre_config.yml} /var/lib/aws/opsworks/
+
+  # create a temporary directory to work in
+  TMP_DIR=$(mktemp -d "opsworks-installer.XXXXXXXX")
+  trap 'rm -rf "$TMP_DIR"' EXIT
+  pushd $TMP_DIR
+
+  # download and install the requested opsworks agent
+  echo "Installing OpsWorks agent version $OPSWORKS_AGENT_VERSION"
+  wget -nv -O opsworks-agent-installer.tgz https://opsworks-instance-agent.s3.amazonaws.com/$OPSWORKS_AGENT_VERSION/opsworks-agent-installer.tgz
+  tar -xzpof opsworks-agent-installer.tgz
+  cd opsworks-agent-installer/opsworks-agent/bin/
+  ./installer_wrapper.sh -R opsworks-instance-assets.s3.amazonaws.com
+
+  # return to our previous location and destroy our temporary directory
+  popd > /dev/null
+  rm -rf "$TMP_DIR"
+  trap - EXIT
+
+  # ensure we can access the opsworks chef gem
+  echo "export PATH=\$PATH:/opt/aws/opsworks/current/bin" > /etc/profile.d/opsworks_path.sh
+fi
+
+# set the vagrant shared directory as cwd if available
+[ -d /vagrant ] && cd /vagrant
+
+# run our provisioner
+env /opt/aws/opsworks/local/bin/ruby $(dirname "${BASH_SOURCE[0]}")/opsworks.rb "$@"
