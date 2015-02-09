@@ -1,0 +1,8 @@
+[submodule "example/cookbooks"]
+	path = example/ops/cookbooks
+	url = https://github.com/amazonwebservices/opsworks-example-cookbooks.git
+	branch = version2
+[submodule "example/dev/simple-php"]
+	path = example/dev/simple-php
+	url = https://github.com/amazonwebservices/opsworks-demo-php-simple-app.git
+	branch = master

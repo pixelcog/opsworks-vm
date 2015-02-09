@@ -1,0 +1,45 @@
+{
+  "opsworks": {
+    "layers": {
+      "php-app": {
+        "instances": {
+          "php-app1": {"private-ip": "10.10.10.10"}
+        }
+      },
+      "db-master": {
+        "instances": {
+          "db-master1": {"private-ip": "10.10.10.20"}
+        }
+      }
+    }
+  },
+  "deploy": {
+    "simple-php": {
+      "application_type": "php",
+      "document_root": "web",
+      "domains": ["simple-php.dev"],
+      "scm": {
+        "scm_type": "git",
+        "repository": "dev/simple-php"
+      },
+      "memcached": {},
+      "database": {
+        "host": "10.10.10.20",
+        "database": "simple-php",
+        "username": "root",
+        "password": "correcthorsebatterystaple",
+        "reconnect": true
+      }
+    }
+  },
+  "mysql": {
+    "server_root_password": "correcthorsebatterystaple",
+    "tunable": {"innodb_buffer_pool_size": "256M"}
+  },
+  "opsworks_custom_cookbooks": {
+    "enabled": true,
+    "scm": {
+      "repository": "ops/cookbooks"
+    }
+  }
+}

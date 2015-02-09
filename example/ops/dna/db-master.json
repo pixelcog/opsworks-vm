@@ -1,0 +1,14 @@
+{
+  "opsworks_custom_cookbooks": {
+    "recipes": [
+      "recipe[opsworks_initial_setup]",
+      "recipe[mysql::client]",
+      "recipe[dependencies]",
+      "recipe[opsworks_ganglia::client]",
+      "recipe[mysql::server]",
+      "recipe[deploy::mysql]",
+      "recipe[phpapp::dbsetup]",
+      "recipe[opsworks_ganglia::configure-client]"
+    ]
+  }
+}
