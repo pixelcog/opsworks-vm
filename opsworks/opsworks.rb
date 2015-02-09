@@ -1,3 +1,10 @@
+#!/usr/bin/env ruby
+
+# OpsWorks provisioner for Vagrant
+# --------------------------------
+# Copyright (c) 2015 PixelCog Inc.
+# Licensed under MIT (see LICENSE)
+
 require 'date'
 require 'json'
 require 'tmpdir'
