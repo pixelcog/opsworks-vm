@@ -262,6 +262,7 @@ module OpsWorks
     dna['deploy'].each do |name, app|
       app.replace deep_merge(DNA_DEPLOY_BASE, app)
       app['application'] ||= name
+      app['domains'] << name if app['domains'].empty?
     end
 
     dna

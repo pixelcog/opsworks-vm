@@ -17,7 +17,6 @@
     "simple-php": {
       "application_type": "php",
       "document_root": "web",
-      "domains": ["simple-php.dev"],
       "scm": {
         "scm_type": "git",
         "repository": "dev/simple-php"
