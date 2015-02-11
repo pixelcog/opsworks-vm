@@ -12,6 +12,8 @@ require 'fileutils'
 
 module OpsWorks
 
+  class OpsWorksError < StandardError; end
+
   DNA_BASE = {
     "ssh_users" => {
       "1000" => {
@@ -125,7 +127,7 @@ module OpsWorks
       # if repo points to a local path, trick opsworks into receiving it as a git repo
       if app['scm']['repository'] && app['scm']['repository'] !~ /^(?:[a-z]+:)?\/\//i
         if !Dir.exist?(app['scm']['repository'])
-          raise "Local app '#{name}' could not be found at '#{app['scm']['repository']}'"
+          raise OpsWorksError, "Local app '#{name}' could not be found at '#{app['scm']['repository']}'"
         end
         app['scm']['repository'] = prepare_deployment(app['scm']['repository'])
       end
@@ -138,7 +140,7 @@ module OpsWorks
       # if repo points to a local path, trick opsworks into receiving it as a git repo
       if cookbooks['scm']['repository'] && cookbooks['scm']['repository'] !~ /^(?:[a-z]+:)?\/\//i
         if !Dir.exist?(cookbooks['scm']['repository'])
-          raise "Local custom cookbooks could not be found at '#{cookbooks['scm']['repository']}'"
+          raise OpsWorksError, "Local custom cookbooks could not be found at '#{cookbooks['scm']['repository']}'"
         end
         cookbooks['scm']['repository'] = prepare_deployment(cookbooks['scm']['repository'])
 
@@ -184,7 +186,7 @@ module OpsWorks
     # AWS currently does not set UTF-8 as default encoding
     system({"LANG" => "POSIX"}, "opsworks-agent-cli run_command -f #{dna_file}")
 
-  rescue StandardError => e
+  rescue OpsWorksError => e
     warn "Error: #{e}"
     exit false
   end
@@ -226,7 +228,7 @@ module OpsWorks
       elsif file.include? '*'
         files += Dir.glob(file)
       else
-        raise "The file '#{file}' does not appear to exist."
+        raise OpsWorksError, "The file '#{file}' does not appear to exist."
       end
     end
     files
@@ -237,8 +239,12 @@ module OpsWorks
     # provide some sensible defaults
     dna = files.reduce(DNA_BASE) do |dna, file|
       log "Processing '#{file}'..."
-      json = File.read(file).strip || '{}'
-      json = JSON.parse(json)
+      begin
+        json = File.read(file).strip || '{}'
+        json = JSON.parse(json)
+      rescue JSON::ParserError => e
+        raise OpsWorksError, "The file '#{file}' does not appear to be valid JSON. (error: #{e})"
+      end
       deep_merge(dna, json)
     end
 
@@ -266,8 +272,6 @@ module OpsWorks
     end
 
     dna
-  rescue JSON::ParserError => e
-    raise "The file '#{file}' does not appear to be valid JSON. (error: #{e})"
   end
 
   def self.prepare_deployment(path)
@@ -290,7 +294,7 @@ module OpsWorks
 
   def self.agent_revision
     date_string = File.read('/opt/aws/opsworks/current/REVISION')[/(\d\d\d\d\-\d\d-\d\d-\d\d:\d\d:\d\d)/, 1]
-    raise 'Unable to parse agent revision' unless date_string
+    raise OpsWorksError, 'Unable to parse agent revision' unless date_string
     DateTime.strptime date_string, '%Y-%m-%d-%H:%M:%S'
   end
 end
