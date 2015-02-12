@@ -38,8 +38,8 @@ module OpsWorks
       "raids" => {}
     },
     "opsworks" => {
-      "activity" => "setup_and_deploy",
-      "valid_client_activities" => ["setup_and_deploy"],
+      "activity" => "setup",
+      "valid_client_activities" => ["setup"],
       "agent_version" => 0,
       "ruby_version" => "2.0.0",
       "ruby_stack" => "ruby",
