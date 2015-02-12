@@ -27,6 +27,12 @@ module OpsWorks
       "gems" => {},
       "debs" => {}
     },
+    "ec2" => {
+      "instance_type" => "vm.vagrant"
+    },
+    "opsworks_initial_setup" => {
+      "swapfile_instancetypes" => ["vm.vagrant"]
+    },
     "ebs" => {
       "devices" => {},
       "raids" => {}
