@@ -20,13 +20,9 @@ cat <<EOT > $TMPDIR/dna.json
       "recipe[opsworks_initial_setup]",
       "recipe[ssh_host_keys]",
       "recipe[ssh_users]",
-      "recipe[mysql::client]",
       "recipe[dependencies]",
-      "recipe[ebs]",
-      "recipe[opsworks_ganglia::client]",
       "recipe[apt]",
       "recipe[deploy::default]",
-      "recipe[opsworks_ganglia::configure-client]",
       "recipe[agent_version]",
       "recipe[opsworks_stack_state_sync]",
       "recipe[opsworks_cleanup]"
