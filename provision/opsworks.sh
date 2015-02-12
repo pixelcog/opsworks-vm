@@ -10,6 +10,9 @@ mkdir -p $TMPDIR/cookbooks
 # Create a base json file to execute some default recipes
 cat <<EOT > $TMPDIR/dna.json
 {
+  "opsworks_initial_setup": {
+    "swapfile_instancetypes": null
+  },
   "opsworks_custom_cookbooks": {
     "enabled": true,
     "scm": {
