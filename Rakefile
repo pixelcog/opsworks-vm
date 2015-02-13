@@ -30,7 +30,10 @@ provider_builder.call(:vmware)
 
 desc "Remove compiled assets and cached files"
 task :clean do
-  sh 'rm -f build/*.box && rm -rf packer_cache'
+  sh 'rm -f build/*.box'
+end
+task :clear do
+  sh 'rm -rf packer_cache'
 end
 
 # shortcuts to virtualbox tasks with no namespace
