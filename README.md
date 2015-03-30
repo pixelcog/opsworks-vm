@@ -8,7 +8,7 @@ for local testing and development.
 
 This Packer configuration will install the `opsworks-agent-cli` command and
 daemon and bundle the resulting Vagrant box with a custom shell script
-provisioner to instaface with it, manage dependencies, and simplify deployments.
+provisioner to interface with it, manage dependencies, and simplify deployments.
 
 ## Building and Installation
 
