@@ -1,7 +1,7 @@
 Packer templates for AWS OpsWorks
 =================================
 
-This repository contains a [Packer](https://www.packer.io) templates for Ubuntu
+This repository contains a [Packer](https://www.packer.io) templates for Ubuntu and CentOS 7 
 pre-loaded with the `opsworks-agent` software utilized by Amazon Web Services,
 allowing [OpsWorks](http://aws.amazon.com/opsworks/) stacks to be virtualized
 for local testing and development.
@@ -26,19 +26,21 @@ $ rake vmware:build
 ```
 
 Rake will build a Ubuntu 14.04 LTS "*Trusty Tahr*" box by default, but you can
-also specify Ubuntu 12.04 LTS "*Precise Pangolin*" like so:
+also specify Ubuntu 12.04 LTS "*Precise Pangolin*" or CentOS 7 LTS mini like so:
 
 ```bash
 $ rake build[ubuntu1204] install[ubuntu1204]
+or
+$ rake build[centos7mini] install[centos7mini]
 ```
 
 _**Note:** Amazon Linux is not supported as it cannot be run outside of
-Amazon EC2._
+Amazon EC2. But the CentOS 7 build is very close to a Amazon Linux._
 
 
 ## Using the Box
 
-The compiled box will be named `ubuntu1404-opsworks` or `ubuntu1204-opsworks`.
+The compiled box will be named `ubuntu1404-opsworks` or `ubuntu1204-opsworks` or `centos7mini-opsworks`.
 To utilize this box in your project, create a new Vagrantfile and include
 the following:
 

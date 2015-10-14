@@ -1,0 +1,97 @@
+{
+  "builders": [
+    {
+      "vm_name": "centos7mini-opsworks",
+      "type": "virtualbox-iso",
+      "guest_os_type": "RedHat_64",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "virtualbox_version_file": ".vbox_version",
+      "iso_urls": [
+		"iso/CentOS-7-x86_64-Minimal-1503-01.iso",
+        "http://ftp.plusline.de/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1503-01.iso",
+        "http://mirror.one.com/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1503-01.iso"
+      ],
+      "iso_checksum": "7c1e34e95c991175290d704dbdcc6531774cbecb",
+      "iso_checksum_type": "sha1",
+	  "ssh_wait_timeout": "15m",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "http_directory": "preseed",
+      "headless": true,
+      "boot_wait": "5s",
+      "boot_command": [
+	    "<tab> net.ifnames=0 text ks=http://{{.HTTPIP}}:{{.HTTPPort}}/ks.cfg<enter><wait>",
+        "hostname={{.Name}} "
+      ],
+      "shutdown_command": "echo 'vagrant' | sudo -S -E shutdown -P now",
+      "hard_drive_interface": "sata",
+	  "disk_size": 10000
+    },
+    {
+      "vm_name": "centos7mini-opsworks",
+      "type": "vmware-iso",
+      "guest_os_type": "RedHat_64",
+      "iso_urls": [
+        "iso/CentOS-7-x86_64-Minimal-1503-01.iso",
+        "http://ftp.plusline.de/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1503-01.iso",
+        "http://mirror.one.com/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1503-01.iso"
+      ],
+      "iso_checksum": "7c1e34e95c991175290d704dbdcc6531774cbecb",
+      "iso_checksum_type": "sha1",
+	  "ssh_wait_timeout": "15m",
+      "ssh_username": "vagrant",
+      "ssh_password": "vagrant",
+      "http_directory": "preseed",
+      "headless": true,
+      "boot_wait": "5s",
+      "boot_command": [
+	    "<tab> net.ifnames=0 text ks=http://{{.HTTPIP}}:{{.HTTPPort}}/ks.cfg<enter><wait>",
+        "hostname={{.Name}} "
+      ],
+      "shutdown_command": "echo 'vagrant' | sudo -S -E shutdown -P now",
+      "tools_upload_flavor": "linux",
+      "tools_upload_path": "vmware_tools.iso",
+      "vmdk_name": "disk",
+      "disk_type_id": "0",
+      "vmx_data": {
+        "MemTrimRate": "0",
+        "sched.mem.pshare.enable": "FALSE",
+        "mainMem.useNamedFile": "FALSE",
+        "prefvmx.minVmMemPct": "100"
+      }
+    }
+  ],
+  "provisioners": [
+    {
+        "type": "file",
+        "source": "opsworks",
+        "destination": "/tmp"
+    },
+    {
+      "type": "shell",
+      "execute_command": "echo 'vagrant' | sudo -S -E bash '{{.Path}}'",
+      "scripts": [
+        "provision/centos/update.sh",
+        "provision/centos/network.sh",
+        "provision/centos/vagrant.sh",
+        "provision/centos/vmtools.sh",
+        "provision/centos/minimize.sh",
+        "provision/centos/opsworks.sh",
+        "provision/centos/cleanup.sh"
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "type": "vagrant",
+      "output": "build/centos7mini-opsworks-{{.Provider}}.box",
+      "include": [
+        "opsworks/opsworks",
+        "opsworks/opsworks.rb",
+        "opsworks/pre_config.yml",
+        "opsworks/client.yml"
+      ],
+      "vagrantfile_template": "opsworks/Vagrantfile.template"
+    }
+  ]
+}

@@ -23,7 +23,7 @@ module OpsWorks
       }
     },
     "dependencies" => {
-      "gem_binary" => "/usr/local/bin/gem",
+      "gem_binary" => "gem",
       "gems" => {},
       "debs" => {}
     },
@@ -213,7 +213,11 @@ module OpsWorks
   end
 
   def self.check_dependencies
-    `apt-get -yq install git 2>&1` if `which git`.empty?
+	if `which yum`.empty?
+	  `apt-get -yq install git 2>&1` if `which git`.empty?
+	else
+	  `yum -q -y install git 2>&1` if `which git`.empty?
+	end
   end
 
   def self.set_hostname(hostname)
