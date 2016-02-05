@@ -181,9 +181,6 @@ module OpsWorks
       )
     end
 
-    # ensure we don't set the agent version to anything lower than the current version
-    dna['opsworks']['agent_version'] = [agent_version, dna['opsworks']['agent_version']].max
-
     log "Generating dna.json..."
     dna_file = save_json_tempfile dna, 'dna.json'
 
