@@ -53,6 +53,7 @@ module OpsWorks
       },
       "layers" => {},
       "instance" => {
+        "infrastructure_class" => "ec2",
         "ip" => "127.0.0.1",
         "private_ip" => "127.0.0.1",
         "layers" => []
