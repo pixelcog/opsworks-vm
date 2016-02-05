@@ -1,7 +1,7 @@
 #!/bin/bash -eux
 
 # set the agent version to be installed
-AGENT_VERSION="3427-20150911163841"
+AGENT_VERSION="3432-20160120135248"
 
 echo "==> Generating chef json for first OpsWorks run"
 TMPDIR=$(mktemp -d) && trap 'rm -rf "$TMPDIR"' EXIT

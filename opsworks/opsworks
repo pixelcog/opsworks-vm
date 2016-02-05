@@ -11,7 +11,7 @@ if [[ ! -f /opt/aws/opsworks/current/VERSION ]]; then
 
   # decide which agent version to install
   if [[ -z $OPSWORKS_AGENT_VERSION ]]; then
-    OPSWORKS_AGENT_VERSION='3427-20150911163841'
+    OPSWORKS_AGENT_VERSION='3432-20160120135248'
   fi
 
   # install dependencies
