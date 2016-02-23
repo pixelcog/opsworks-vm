@@ -132,7 +132,7 @@ module OpsWorks
     dna['deploy'].each do |name, app|
 
       # if repo points to a local path, trick opsworks into receiving it as a git repo
-      if app['scm']['repository'] && app['scm']['repository'] !~ /^(?:[a-z]+:)?\/\//i
+      if app['scm']['repository'] && app['scm']['repository'] !~ /^(?:[A-Za-z0-9]+@|http(|s)\:\/\/)/i
         if !Dir.exist?(app['scm']['repository'])
           raise OpsWorksError, "Local app '#{name}' could not be found at '#{app['scm']['repository']}'"
         end
@@ -145,7 +145,7 @@ module OpsWorks
       cookbooks = dna['opsworks_custom_cookbooks']
 
       # if repo points to a local path, trick opsworks into receiving it as a git repo
-      if cookbooks['scm']['repository'] && cookbooks['scm']['repository'] !~ /^(?:[a-z]+:)?\/\//i
+      if cookbooks['scm']['repository'] && cookbooks['scm']['repository'] !~ /^(?:[A-Za-z0-9]+@|http(|s)\:\/\/)/i
         if !Dir.exist?(cookbooks['scm']['repository'])
           raise OpsWorksError, "Local custom cookbooks could not be found at '#{cookbooks['scm']['repository']}'"
         end
