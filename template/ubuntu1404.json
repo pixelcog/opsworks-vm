@@ -7,8 +7,8 @@
       "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
       "virtualbox_version_file": ".vbox_version",
       "iso_urls": [
-        "http://releases.ubuntu.com/14.04/ubuntu-14.04.3-server-amd64.iso",
-        "http://nl.releases.ubuntu.com/14.04/ubuntu-14.04.3-server-amd64.iso"
+        "http://releases.ubuntu.com/14.04/ubuntu-14.04.4-server-amd64.iso",
+        "http://nl.releases.ubuntu.com/14.04/ubuntu-14.04.4-server-amd64.iso"
       ],
       "iso_checksum": "0501c446929f713eb162ae2088d8dc8b6426224a",
       "iso_checksum_type": "sha1",
@@ -36,8 +36,8 @@
       "type": "vmware-iso",
       "guest_os_type": "ubuntu-64",
       "iso_urls": [
-        "http://releases.ubuntu.com/14.04/ubuntu-14.04.3-server-amd64.iso",
-        "http://nl.releases.ubuntu.com/14.04/ubuntu-14.04.3-server-amd64.iso"
+        "http://releases.ubuntu.com/14.04/ubuntu-14.04.4-server-amd64.iso",
+        "http://nl.releases.ubuntu.com/14.04/ubuntu-14.04.4-server-amd64.iso"
       ],
       "iso_checksum": "0501c446929f713eb162ae2088d8dc8b6426224a",
       "iso_checksum_type": "sha1",
