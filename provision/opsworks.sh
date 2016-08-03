@@ -36,33 +36,34 @@ EOT
 
 # Use Berkshelf to pre-load some commonly-used community cookbooks
 cat <<EOT >> $TMPDIR/cookbooks/Berksfile
-source "https://supermarket.getchef.com"
+source "https://supermarket.chef.io"
 
 # pre-load some opscode community cookbooks
-cookbook "apt", ">= 2.0"
+# where necessary, use Chef 11-compatible versions
+cookbook "apt", "< 4.0.0"
 cookbook "apache2"
 cookbook "aws"
-cookbook "bluepill"
-cookbook "build-essential"
+cookbook "bluepill", "<= 2.4.1"
+cookbook "build-essential", "<= 3.2.0"
 cookbook "couchdb"
 cookbook "cron"
 cookbook "git"
 cookbook "haproxy"
-cookbook "memcached"
+cookbook "memcached", "< 2.1.0"
 cookbook "mongodb"
-cookbook "mysql"
+cookbook "mysql", "< 8.0.0"
 cookbook "newrelic"
 cookbook "nginx"
 cookbook "nodejs"
-cookbook "ohai"
+cookbook "ohai", "< 4.0.0"
 cookbook "postgresql"
 cookbook "php"
 cookbook "php-fpm"
 cookbook "python"
 cookbook "redisio"
-cookbook "rsyslog"
+cookbook "rsyslog", "<= 2.2.0"
 cookbook "runit"
-cookbook "sysctl"
+cookbook "sysctl", "< 0.8.0"
 cookbook "yum"
 cookbook "yum-epel"
 EOT
