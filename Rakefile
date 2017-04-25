@@ -1,6 +1,6 @@
 
 # first is default
-BOXES = %w( ubuntu1404 ubuntu1204 ).freeze
+BOXES = %w( ubuntu1404 ubuntu1204 centos7mini ).freeze
 
 # namespace for each provider
 provider_builder = lambda do |provider|
@@ -30,10 +30,18 @@ provider_builder.call(:vmware)
 
 desc "Remove compiled assets and cached files"
 task :clean do
-  sh 'rm -f build/*.box'
+  if ENV['OS'] == 'Windows_NT'
+    sh "rm 'build/*.box' -Recurse -Force -ErrorAction SilentlyContinue"
+  else
+    sh 'rm -f build/*.box'
+  end
 end
 task :clear do
-  sh 'rm -rf packer_cache'
+  if ENV['OS'] == 'Windows_NT'
+    sh 'rm packer_cache -Force -Recurse -ErrorAction SilentlyContinue'
+  else 
+    sh 'rm -rf packer_cache'
+  end
 end
 
 # shortcuts to virtualbox tasks with no namespace
@@ -44,7 +52,10 @@ task :remove, [:box] => 'virtualbox:remove'
 # build a box for the specified provider
 def build_box(box, provider)
   log "Building #{box} for #{provider}"
-  sh "rm -f build/#{box}-opsworks-#{provider}.box && packer build -only=#{provider}-iso template/#{box}.json"
+  file = "build/#{box}-opsworks-#{provider}.box"
+  # sh "rm -f build/#{box}-opsworks-#{provider}.box && packer build -only=#{provider}-iso template/#{box}.json"
+  File.delete(file) if File.exist?(file)
+  sh "packer build -only=#{provider}-iso template/#{box}.json"
 end
 
 # build a box with vagrant

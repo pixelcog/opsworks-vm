@@ -6,6 +6,12 @@ if [[ $# -eq 0 ]]; then
   exit
 fi
 
+# yum or apt-get
+OS=red
+if [ -f /etc/lsb-release ]; then
+  OS=ubuntu
+fi
+
 # install opsworks agent if not already available
 if [[ ! -f /opt/aws/opsworks/current/VERSION ]]; then
 
@@ -16,8 +22,13 @@ if [[ ! -f /opt/aws/opsworks/current/VERSION ]]; then
 
   # install dependencies
   echo "Installing OpsWorks agent dependencies"
-  apt-get -yq update
-  apt-get -yq install curl libxml2-dev libxslt-dev libyaml-dev
+  if [ "x$OS" = "xred" ]; then
+	yum -q -y update
+	yum -q -y install curl libxml2-devel libxslt-devel libyaml-devel
+  else
+	apt-get -yq update
+	apt-get -yq install curl libxml2-dev libxslt-dev libyaml-dev
+  fi
 
   # create expected directories and populate them with expected config files
   mkdir -p /{etc,opt,var/{log,lib}}/aws/opsworks/ /var/lib/cloud/
