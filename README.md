@@ -1,6 +1,11 @@
 Packer templates for AWS OpsWorks
 =================================
 
+> **Note:** this Packer template is for use with the legacy AWS OpsWorks "Stacks"
+> operating in Chef 11 mode.  There are no plans to update this to work with
+> Chef 12 or OpsWorks Chef Automate modes.  A vanilla Chef plugin for Vagrant
+> may serve you better in these cases.
+
 This repository contains a [Packer](https://www.packer.io) templates for Ubuntu
 pre-loaded with the `opsworks-agent` software utilized by Amazon Web Services,
 allowing [OpsWorks](http://aws.amazon.com/opsworks/) stacks to be virtualized
