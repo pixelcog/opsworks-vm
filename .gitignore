@@ -1,7 +1,10 @@
 .DS_Store
 packer_cache/
 .vagrant/
+.vscode/
 *.box
 *.iso
 *.tar.gz
 output-*
+stack.json
+tmp/

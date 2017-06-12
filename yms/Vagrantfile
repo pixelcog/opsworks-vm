@@ -1,0 +1,21 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# http://docs.aws.amazon.com/opsworks/latest/userguide/gettingstarted-db.html
+
+Vagrant.configure("2") do |config|
+
+  config.vm.box = "ubuntu1404-opsworks"
+
+  # Create the rails-app layer
+  config.vm.define "app" do |layer|
+
+    layer.vm.provision "opsworks", type:"shell", args:[
+      'ops/dna/stack.json',
+      'ops/dna/rails-app-layer.json'
+    ]
+
+    # Forward port 80 so we can see our work
+    layer.vm.network "forwarded_port", guest: 80, host: 8080
+  end
+end

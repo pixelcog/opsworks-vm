@@ -41,7 +41,7 @@ module OpsWorks
       "activity" => "setup",
       "valid_client_activities" => ["setup"],
       "agent_version" => 0,
-      "ruby_version" => "2.0.0",
+      "ruby_version" => "2.2",
       "ruby_stack" => "ruby",
       "rails_stack" => {
         "name" => nil
@@ -61,10 +61,10 @@ module OpsWorks
     },
     "deploy" => {},
     "opsworks_rubygems" => {
-      "version" => "2.2.2"
+      "version" => "2.6.11"
     },
     "opsworks_bundler" => {
-      "version" => "1.5.3",
+      "version" => "1.14.6",
       "manage_package" => nil
     },
     "opsworks_custom_cookbooks" => {
