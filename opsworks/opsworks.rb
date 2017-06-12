@@ -41,7 +41,7 @@ module OpsWorks
       "activity" => "setup",
       "valid_client_activities" => ["setup"],
       "agent_version" => 0,
-      "ruby_version" => "2.2.7",
+      "ruby_version" => "2.2",
       "ruby_stack" => "ruby",
       "rails_stack" => {
         "name" => nil

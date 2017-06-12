@@ -6,3 +6,5 @@ packer_cache/
 *.iso
 *.tar.gz
 output-*
+stack.json
+tmp/
